@@ -1,0 +1,40 @@
+cmake_minimum_required(VERSION 2.6)
+
+# Deprecated
+INCLUDE(FindPkgConfig)
+
+PROJECT("camera_calibration")
+SET(PROGNAME "cam_calib")
+SET(PROGVERSION "0.1")
+SET(PACKET "vision")
+SET(PREFIX ${CMAKE_INSTALL_PREFIX})
+
+SET(BINDIR "${PREFIX}/bin")
+SET(INCLUDEDIR "${PREFIX}/include")
+SET(MANDIR "${PREFIX}/man")
+SET(LIBDIR "${PREFIX}/lib")
+SET(DATADIR "${PREFIX}/share/${PACKET}")
+
+SET(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
+
+# Find needed list.
+SET(REQUIRED_LIBS opencv)
+
+# Deprecated
+PKG_CHECK_MODULES(LIBS REQUIRED ${REQUIRED_LIBS})
+
+# Set all sources for your application here.
+SET(SOURCES src/camera_calibration)
+
+# This must be invoked *before* any target is created!
+LINK_DIRECTORIES(${LIBS_LIBRARY_DIRS})
+SET(CMAKE_FIND_ROOT_PATH src)
+INCLUDE_DIRECTORIES(src ${LIBS_INCLUDE_DIRS})
+
+SET(EXECUTABLE_OUTPUT_PATH bin)
+ADD_EXECUTABLE(${PROGNAME} ${SOURCES})
+
+SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS}")
+
+# Add link libraries.
+TARGET_LINK_LIBRARIES(${PROGNAME} ${LIBNAME} ${LIBS_LDFLAGS})
